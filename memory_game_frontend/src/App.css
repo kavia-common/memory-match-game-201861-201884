@@ -1,104 +1,328 @@
-/* CSS Variables for Theme Management */
+/* Modern light styling per provided style guide:
+   - primary: #3b82f6
+   - secondary: #64748b
+   - success/accent: #06b6d4
+   - background: #f9fafb
+   - surface: #ffffff
+   - text: #111827
+*/
+
 :root {
-  /* Light theme colors */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f8f9fa;
-  --text-primary: #282c34;
-  --text-secondary: #61dafb;
-  --border-color: #e9ecef;
-  --button-bg: #007bff;
-  --button-text: #ffffff;
+  --bg: #f9fafb;
+  --surface: #ffffff;
+
+  --text: #111827;
+  --muted: #64748b;
+
+  --primary: #3b82f6;
+  --primary-strong: #2563eb;
+  --accent: #06b6d4;
+
+  --border: rgba(17, 24, 39, 0.10);
+  --shadow: 0 10px 30px rgba(17, 24, 39, 0.08);
+
+  --radius-lg: 18px;
+  --radius-md: 14px;
+
+  --focus: 0 0 0 4px rgba(59, 130, 246, 0.25);
 }
 
-[data-theme="dark"] {
-  /* Dark theme colors */
-  --bg-primary: #1a1a1a;
-  --bg-secondary: #282c34;
-  --text-primary: #ffffff;
-  --text-secondary: #61dafb;
-  --border-color: #404040;
-  --button-bg: #0056b3;
-  --button-text: #ffffff;
+* {
+  box-sizing: border-box;
 }
 
 .App {
-  text-align: center;
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
   min-height: 100vh;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  background:
+    radial-gradient(900px 500px at 10% 10%, rgba(59, 130, 246, 0.12), transparent 60%),
+    radial-gradient(900px 500px at 90% 0%, rgba(6, 182, 212, 0.10), transparent 55%),
+    var(--bg);
+  color: var(--text);
+  font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.game {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 28px 18px 40px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: var(--bg-secondary);
-  min-height: 100vh;
+.gameHeader {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: var(--text-primary);
-  transition: background-color 0.3s ease;
-  position: relative;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+
+  padding: 18px 18px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+
+  backdrop-filter: blur(10px);
 }
 
-.App-link {
-  color: var(--text-secondary);
-  transition: color 0.3s ease;
+.titleBlock {
+  min-width: 240px;
 }
 
-.theme-toggle {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background-color: var(--button-bg);
-  color: var(--button-text);
-  border: none;
-  border-radius: 8px;
-  padding: 10px 20px;
+.gameTitle {
+  margin: 0;
+  font-size: 28px;
+  letter-spacing: -0.02em;
+}
+
+.gameSubtitle {
+  margin: 6px 0 0;
+  color: var(--muted);
   font-size: 14px;
-  font-weight: 600;
+  line-height: 1.4;
+}
+
+.statsAndActions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.stats {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+}
+
+.stat {
+  min-width: 86px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(59, 130, 246, 0.08), rgba(255, 255, 255, 0));
+  border: 1px solid rgba(59, 130, 246, 0.12);
+}
+
+.statLabel {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.statValue {
+  display: block;
+  font-size: 16px;
+  font-weight: 700;
+  margin-top: 2px;
+}
+
+.btnPrimary,
+.btnSecondary {
+  border: none;
+  border-radius: 14px;
+  padding: 10px 14px;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 120ms ease, box-shadow 120ms ease, background-color 120ms ease,
+    color 120ms ease, opacity 120ms ease;
 }
 
-.theme-toggle:hover {
+.btnPrimary {
+  color: white;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  box-shadow: 0 10px 22px rgba(59, 130, 246, 0.18);
+}
+
+.btnPrimary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px rgba(59, 130, 246, 0.22);
+}
+
+.btnPrimary:active {
+  transform: translateY(0px);
+}
+
+.btnPrimary:focus-visible,
+.btnSecondary:focus-visible,
+.card:focus-visible {
+  outline: none;
+  box-shadow: var(--focus);
+}
+
+.btnSecondary {
+  background: rgba(100, 116, 139, 0.10);
+  color: var(--text);
+  border: 1px solid rgba(100, 116, 139, 0.22);
+}
+
+.btnSecondary:hover {
+  transform: translateY(-1px);
+  background: rgba(100, 116, 139, 0.14);
+}
+
+.boardSection {
+  margin-top: 18px;
+  padding: 18px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.76);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(10px);
+}
+
+.board {
+  display: grid;
+  gap: 12px;
+
+  /* Responsive grid:
+     - mobile: 3-4 columns depending on width
+     - larger: 4 columns (16 cards)
+  */
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+@media (max-width: 760px) {
+  .statsAndActions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .stats {
+    flex: 1;
+    justify-content: space-between;
+  }
+
+  .stat {
+    min-width: 78px;
+  }
+
+  .board {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .board {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.card {
+  appearance: none;
+  border: 1px solid rgba(17, 24, 39, 0.12);
+  border-radius: var(--radius-md);
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+
+  /* Make cards square */
+  aspect-ratio: 1 / 1;
+
+  box-shadow: 0 8px 20px rgba(17, 24, 39, 0.08);
+  transition: transform 130ms ease, box-shadow 130ms ease, border-color 130ms ease,
+    opacity 130ms ease;
+}
+
+.card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  opacity: 0.9;
+  border-color: rgba(59, 130, 246, 0.28);
+  box-shadow: 0 14px 28px rgba(17, 24, 39, 0.10);
 }
 
-.theme-toggle:active {
-  transform: translateY(0);
+.card:disabled {
+  cursor: not-allowed;
+  opacity: 0.95;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.cardInner {
+  width: 100%;
+  height: 100%;
+  display: block;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 260ms ease;
+  border-radius: var(--radius-md);
 }
 
-/* Responsive design for mobile */
-@media (max-width: 768px) {
-  .theme-toggle {
-    top: 10px;
-    right: 10px;
-    padding: 8px 16px;
-    font-size: 12px;
+.card.isFlipped .cardInner,
+.card.isMatched .cardInner {
+  transform: rotateY(180deg);
+}
+
+.cardFace {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-md);
+  backface-visibility: hidden;
+  user-select: none;
+}
+
+.cardBack {
+  background: linear-gradient(180deg, rgba(59, 130, 246, 0.16), rgba(255, 255, 255, 0.9));
+  color: rgba(17, 24, 39, 0.55);
+  font-weight: 800;
+  font-size: clamp(22px, 4vw, 34px);
+}
+
+.cardFront {
+  transform: rotateY(180deg);
+  background: radial-gradient(120px 90px at 40% 30%, rgba(6, 182, 212, 0.18), transparent 60%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 1));
+  border: 1px solid rgba(6, 182, 212, 0.18);
+
+  font-size: clamp(24px, 5vw, 40px);
+}
+
+.card.isMatched {
+  border-color: rgba(6, 182, 212, 0.45);
+  box-shadow: 0 16px 36px rgba(6, 182, 212, 0.12);
+}
+
+.hintText {
+  margin: 12px 2px 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.winBanner {
+  margin-top: 18px;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(6, 182, 212, 0.22);
+  background:
+    radial-gradient(900px 240px at 10% 20%, rgba(6, 182, 212, 0.16), transparent 70%),
+    radial-gradient(900px 240px at 90% 10%, rgba(59, 130, 246, 0.16), transparent 70%),
+    rgba(255, 255, 255, 0.85);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(10px);
+}
+
+.winBannerInner {
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.winTitle {
+  margin: 0;
+  font-size: 18px;
+  letter-spacing: -0.01em;
+}
+
+.winText {
+  margin: 6px 0 0;
+  color: rgba(17, 24, 39, 0.75);
+  font-size: 14px;
+}
+
+@media (max-width: 520px) {
+  .winBannerInner {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
