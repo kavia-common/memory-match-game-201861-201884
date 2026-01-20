@@ -35,9 +35,30 @@ function shuffle(arr) {
  * @returns {Card[]}
  */
 function createDeck(faces) {
+  // Create a unique-ish id without assuming the Web Crypto API exists (jsdom tests may not provide it).
+  const makeId = () => {
+    try {
+      /**
+       * Prefer Web Crypto randomUUID when available.
+       * Note: avoid referencing `globalThis` directly to satisfy the template's ESLint globals.
+       */
+      const cryptoObj =
+        (typeof window !== "undefined" && window.crypto) ||
+        (typeof global !== "undefined" && global.crypto) ||
+        null;
+
+      if (cryptoObj?.randomUUID) return cryptoObj.randomUUID();
+    } catch {
+      // Ignore and fall back below.
+    }
+
+    // Fallback: time + random. Sufficient for React keys in this small demo.
+    return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+  };
+
   const pairs = faces.flatMap((face) => [
-    { id: `${face}-a-${crypto?.randomUUID?.() ?? Math.random()}`, face },
-    { id: `${face}-b-${crypto?.randomUUID?.() ?? Math.random()}`, face },
+    { id: `${face}-a-${makeId()}`, face },
+    { id: `${face}-b-${makeId()}`, face },
   ]);
 
   return shuffle(
